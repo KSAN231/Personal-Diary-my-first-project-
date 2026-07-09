@@ -1,4 +1,4 @@
-import numbers
+
 import sys
 import json
 import os
@@ -26,7 +26,6 @@ def count_entries(entries):#Счетчик count
 
 
 entries = load_entries()
-count_entries(entries)
 count_result = count_entries(entries)
 
 
@@ -122,6 +121,7 @@ while True:
                 if confirmation == 1:
                     entries.remove(i)
                     print("\033[32mЗапись удалена!\033[0m")
+                    save_entries(entries)
                     break
                 elif confirmation == 2:
                     print("\033[31mУдаление прервано!\033[0m")
