@@ -1,9 +1,9 @@
+import numbers
 import sys
 import json
 import os
 
-
-def load_entries():
+def load_entries():  #Загружает JSON данные
    if os.path.exists("test.json"):
        with open("test.json", "r") as f:
            data = json.load(f)
@@ -11,6 +11,23 @@ def load_entries():
    else:
        return []
 
+def save_entries(entries): # сохраняет данные в JSON
+    with open("test.json", "w") as f:
+        json.dump(entries, f)
+
+def count_entries(entries):#Счетчик count
+    if entries == []:
+        return 0
+    numbers = []
+    for i in entries:
+        numbers.append(i["number"])
+    maximum = max(numbers)
+    return maximum
+
+
+entries = load_entries()
+count_entries(entries)
+count_result = count_entries(entries)
 
 
 def menu():
@@ -18,14 +35,14 @@ def menu():
 
 def info_day(number, data, learning, timelearning, kpd):
     print("\033[35m=================================\033[0m","\nID:", number,"\nДата:",data,"\nЧто изучал сегодня:", learning,"\nВремя:" , timelearning, "\nОценка дня:" , kpd,"\n\033[35m=================================\033[0m")
-count = 0
-entries = load_entries()
+
+
 while True:
     menu()
     answer = int(input("Выберете пункт:"))
     if answer == 1: #1.Новая запись
-        count +=1
-        number = count
+        count_result +=1
+        number = count_result
         data = input("Дата")
         learning = input("Что изучал сегодня?")
         timelearning = input("Сколько времени занимался?(В минутах)")
@@ -39,6 +56,7 @@ while True:
         }
         entries.append(entry)
         info_day(number, data, learning, timelearning, kpd)
+        save_entries(entries)
     elif answer == 2: # 2.Посмотреть записи
         if len(entries) == 0:
             print("Записей не найдено")
@@ -65,28 +83,33 @@ while True:
                 if change == 1:
                     change_data = input("Введите новое значение")
                     i["data"] = change_data
-                    print("Данные обновлены")
+                    print("\033[32mДанные обновлены!\033[0m")
                     info_day(i["number"], i["data"], i["learning"], i["time"], i["kpd"])
+                    save_entries(entries)
                     break
                 elif change == 2:
                     change_learning = input("Введите новое значение")
                     i["learning"] = change_learning
-                    print("Данные обновлены")
+                    print("\033[32mДанные обновлены!\033[0m")
                     info_day(i["number"], i["data"], i["learning"], i["time"], i["kpd"])
+                    save_entries(entries)
                     break
                 elif change == 3:
                     change_time = input("Введите новое значение")
                     i["time"] = change_time
-                    print("Данные обновлены")
+                    print("\033[32mДанные обновлены!\033[0m")
                     info_day(i["number"], i["data"], i["learning"], i["time"], i["kpd"])
+                    save_entries(entries)
                     break
                 elif change == 4:
                     change_kpd = input("Введите новое значение")
                     i["kpd"] = change_kpd
-                    print("Данные обновлены")
+                    print("\033[32mДанные обновлены!\033[0m")
                     info_day(i["number"], i["data"], i["learning"], i["time"], i["kpd"])
+                    save_entries(entries)
                     break
         if found == False:
+            save_entries(entries)
             print("\033[31mЗапись не найдена😰\033[0m")
     elif answer == 5: #5.Удалить запись
         id_search = int(input("Введите ID записи которую хотите удалить."))
@@ -102,9 +125,12 @@ while True:
                     break
                 elif confirmation == 2:
                     print("\033[31mУдаление прервано!\033[0m")
+                    save_entries(entries)
                     break
         if found == False:
+            save_entries(entries)
             print("\033[31mЗапись не найдена😰\033[0m")
     elif answer == 6: #6.Выход
+        save_entries(entries)
         sys.exit(1)
 
