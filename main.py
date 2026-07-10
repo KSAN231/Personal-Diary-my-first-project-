@@ -61,6 +61,7 @@ while True:
         }
         entries.append(entry)
         info_day(number, data, learning, timelearning, kpd)
+        print("\033[32mНовая запись успешно создана!😎\033[0m")
         save_entries(entries)
     elif answer == 2:  # 2.Посмотреть записи
         if len(entries) == 0:
