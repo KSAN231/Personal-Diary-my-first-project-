@@ -1,21 +1,23 @@
-
 import sys
 import json
 import os
 
-def load_entries():  #Загружает JSON данные
-   if os.path.exists("test.json"):
-       with open("test.json", "r") as f:
-           data = json.load(f)
-           return data
-   else:
-       return []
 
-def save_entries(entries): # сохраняет данные в JSON
+def load_entries():  # Загружает JSON данные
+    if os.path.exists("test.json"):
+        with open("test.json", "r") as f:
+            data = json.load(f)
+            return data
+    else:
+        return []
+
+
+def save_entries(entries):  # сохраняет данные в JSON
     with open("test.json", "w") as f:
         json.dump(entries, f)
 
-def count_entries(entries):#Счетчик count
+
+def count_entries(entries):  # Счетчик count
     if entries == []:
         return 0
     numbers = []
@@ -30,17 +32,21 @@ count_result = count_entries(entries)
 
 
 def menu():
-    print(" 1.Новая запись \n 2.Посмотреть записи \n 3.Найти запись \n 4.Редактирование записи \n 5.Удалить запись \n 6.Выход")
+    print(
+        " 1.Новая запись \n 2.Посмотреть записи \n 3.Найти запись \n 4.Редактирование записи \n 5.Удалить запись \n 6.Выход")
+
 
 def info_day(number, data, learning, timelearning, kpd):
-    print("\033[35m=================================\033[0m","\nID:", number,"\nДата:",data,"\nЧто изучал сегодня:", learning,"\nВремя:" , timelearning, "\nОценка дня:" , kpd,"\n\033[35m=================================\033[0m")
+    print("\033[35m=================================\033[0m", "\nID:", number, "\nДата:", data, "\nЧто изучал сегодня:",
+          learning, "\nВремя:", timelearning, "\nОценка дня:", kpd,
+          "\n\033[35m=================================\033[0m")
 
 
 while True:
     menu()
     answer = int(input("Выберете пункт:"))
-    if answer == 1: #1.Новая запись
-        count_result +=1
+    if answer == 1:  # 1.Новая запись
+        count_result += 1
         number = count_result
         data = input("Дата")
         learning = input("Что изучал сегодня?")
@@ -56,12 +62,12 @@ while True:
         entries.append(entry)
         info_day(number, data, learning, timelearning, kpd)
         save_entries(entries)
-    elif answer == 2: # 2.Посмотреть записи
+    elif answer == 2:  # 2.Посмотреть записи
         if len(entries) == 0:
             print("Записей не найдено")
         for i in entries:
             info_day(i["number"], i["data"], i["learning"], i["time"], i["kpd"])
-    elif answer == 3: #3.Найти запись
+    elif answer == 3:  # 3.Найти запись
         search = int(input("Введите номер ID:"))
         found = False
         for i in entries:
@@ -71,7 +77,7 @@ while True:
                 break
         if found == False:
             print("\033[31mЗапись не найдена😰\033[0m")
-    elif answer == 4: #4.Редактирование записи
+    elif answer == 4:  # 4.Редактирование записи
         id_search = int(input("Введите ID"))
         found = False
         for i in entries:
@@ -110,7 +116,7 @@ while True:
         if found == False:
             save_entries(entries)
             print("\033[31mЗапись не найдена😰\033[0m")
-    elif answer == 5: #5.Удалить запись
+    elif answer == 5:  # 5.Удалить запись
         id_search = int(input("Введите ID записи которую хотите удалить."))
         found = False
         for i in entries:
@@ -130,8 +136,8 @@ while True:
         if found == False:
             save_entries(entries)
             print("\033[31mЗапись не найдена😰\033[0m")
-    elif answer == 6: #6.Выход
+    elif answer == 6:  # 6.Выход
         save_entries(entries)
         sys.exit(1)
 
-#123
+# 123
