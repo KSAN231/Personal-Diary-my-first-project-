@@ -40,6 +40,15 @@ def info_day(number, data, learning, timelearning, kpd):
     print("\033[35m=================================\033[0m", "\nID:", number, "\nДата:", data, "\nЧто изучал сегодня:",
           learning, "\nВремя:", timelearning, "\nОценка дня:", kpd,
           "\n\033[35m=================================\033[0m")
+def appentry(entries):
+    entry = {
+        "number": number,
+        "data": data,
+        "learning": learning,
+        "time": timelearning,
+        "kpd": kpd
+    }
+    entries.append(entry)
 
 
 while True:
@@ -49,9 +58,21 @@ while True:
         count_result += 1
         number = count_result
         data = input("Дата")
+        while data == "":
+            if data == "":
+                data = input("\033[31mВы ничего не ввели, введите пожалуйста данные.\033[0m")
         learning = input("Что изучал сегодня?")
+        while learning == "":
+            if learning == "":
+                learning = input("\033[31mВы ничего не ввели, введите пожалуйста данные.\033[0m")
         timelearning = input("Сколько времени занимался?(В минутах)")
+        while timelearning == "":
+            if timelearning == "":
+                timelearning = input("\033[31mВы ничего не ввели, введите пожалуйста данные.\033[0m")
         kpd = input("Какая оценка дня?")
+        while kpd == "":
+            if kpd == "":
+                kpd = input("\033[31mВы ничего не ввели, введите пожалуйста данные.\033[0m")
         entry = {
             "number": number,
             "data": data,
@@ -61,7 +82,6 @@ while True:
         }
         entries.append(entry)
         info_day(number, data, learning, timelearning, kpd)
-        print("\033[32mНовая запись успешно создана!😎\033[0m")
         save_entries(entries)
     elif answer == 2:  # 2.Посмотреть записи
         if len(entries) == 0:
@@ -75,7 +95,6 @@ while True:
             if i["number"] == search:
                 found = True
                 info_day(i["number"], i["data"], i["learning"], i["time"], i["kpd"])
-                break
         if found == False:
             print("\033[31mЗапись не найдена😰\033[0m")
     elif answer == 4:  # 4.Редактирование записи
@@ -89,31 +108,29 @@ while True:
                 if change == 1:
                     change_data = input("Введите новое значение")
                     i["data"] = change_data
-                    print("\033[32mДанные обновлены!\033[0m")
                     info_day(i["number"], i["data"], i["learning"], i["time"], i["kpd"])
+                    print("\033[32mДанные обновлены!\033[0m")
                     save_entries(entries)
-                    break
                 elif change == 2:
                     change_learning = input("Введите новое значение")
                     i["learning"] = change_learning
-                    print("\033[32mДанные обновлены!\033[0m")
                     info_day(i["number"], i["data"], i["learning"], i["time"], i["kpd"])
+                    print("\033[32mДанные обновлены!\033[0m")
                     save_entries(entries)
                     break
                 elif change == 3:
                     change_time = input("Введите новое значение")
                     i["time"] = change_time
-                    print("\033[32mДанные обновлены!\033[0m")
                     info_day(i["number"], i["data"], i["learning"], i["time"], i["kpd"])
+                    print("\033[32mДанные обновлены!\033[0m")
                     save_entries(entries)
                     break
                 elif change == 4:
                     change_kpd = input("Введите новое значение")
                     i["kpd"] = change_kpd
-                    print("\033[32mДанные обновлены!\033[0m")
                     info_day(i["number"], i["data"], i["learning"], i["time"], i["kpd"])
+                    print("\033[32mДанные обновлены!\033[0m")
                     save_entries(entries)
-                    break
         if found == False:
             save_entries(entries)
             print("\033[31mЗапись не найдена😰\033[0m")
@@ -133,7 +150,6 @@ while True:
                 elif confirmation == 2:
                     print("\033[31mУдаление прервано!\033[0m")
                     save_entries(entries)
-                    break
         if found == False:
             save_entries(entries)
             print("\033[31mЗапись не найдена😰\033[0m")
