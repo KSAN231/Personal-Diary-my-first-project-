@@ -1,20 +1,49 @@
 import sys
 import json
 import os
+import shutil
 
 
 def load_entries():  # Загружает JSON данные
-    if os.path.exists("test.json"):
-        with open("test.json", "r") as f:
-            data = json.load(f)
-            return data
+    if os.path.exists("main_json.json"):
+        with open("main_json.json", "r") as f:
+            try:
+                data = json.load(f)
+                return data
+            except:
+                if os.path.exists("backup_json.json"):
+                    with open("backup_json.json", "r") as f:
+                        try:
+                            data = json.load(f)
+                            return data
+                        except:
+                            return []
+                else:
+                    return []
     else:
-        return []
+        if os.path.exists("backup_json.json"):
+            with open("backup_json.json", "r") as f:
+                try:
+                    data = json.load(f)
+                    return data
+                except:
+                    return []
+        else:
+            return []
 
-
-def save_entries(entries):  # сохраняет данные в JSON
-    with open("test.json", "w") as f:
+def save_entries(entries):
+    with open("temp_json.json", "w") as f:
         json.dump(entries, f)
+    try:
+        with open("temp_json.json", "r") as f:
+            json.load(f)
+        os.replace("temp_json.json", "main_json.json")
+        shutil.copy("main_json.json", "backup_json.json")
+    except json.JSONDecodeError:
+        if os.path.exists("temp_json.json"):
+            os.remove("temp_json.json")
+
+
 
 
 def count_entries(entries):  # Счетчик count
